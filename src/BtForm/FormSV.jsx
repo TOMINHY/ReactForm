@@ -82,15 +82,21 @@ class FormSV extends Component {
     }
     this.props.dispatch(action)
   }
-  static getDerivedStateFromProps(newProps, currentState) {
-    if (newProps.sinhVienChiTiet.maSV !== currentState.values.maSV) {
-      return {
-        ...currentState,
-        values: newProps.sinhVienChiTiet
-      }
-    }
-    return currentState;
+  // static getDerivedStateFromProps(newProps, currentState) {
+  //   if (newProps.sinhVienChiTiet.maSV !== currentState.values.maSV) {
+  //     return {
+  //       ...currentState,
+  //       values: newProps.sinhVienChiTiet
+  //     }
+  //   }
+  //   return currentState;
+  // }
+  componentWillReceiveProps(newProps){
+    this.setState({
+      values: newProps.sinhVienChiTiet
+    })
   }
+
 
 
   render() {
@@ -106,8 +112,8 @@ class FormSV extends Component {
               <span>Mã SV</span>
               <input onChange={(event) => {
                 this.inputChange(event)
-              }} value={maSV} type="text" name="maSV" className='form-control' />
-              <p className='text-danger'>{this.state.errors.maSV}</p>
+              }} value={maSV} type="text" name="maSV" id='maSV' className='form-control' />
+              <p  className='text-danger'>{this.state.errors.maSV}</p>
             </div>
             <div className="col-6 mb-3">
               <span>Họ Tên</span>
@@ -154,7 +160,13 @@ class FormSV extends Component {
             }} type="text" className='form-control' />
           </div>
           <div className='col-2'>
-            <button className='btn btn-primary'>Search</button>
+            <button onClick={() =>{
+              let action ={
+                type:'HANDLE',
+                value:this.props.inputSearch
+              }
+              this.props.dispatch(action)
+            }} className='btn btn-primary'>Search</button>
           </div>
         </div>
 
@@ -168,7 +180,8 @@ class FormSV extends Component {
 const mapStateToProps = (rootReducer) => {
   return {
     sinhVienChiTiet: rootReducer.QLSVReducer.sinhVienChiTiet,
-    mangSV: rootReducer.QLSVReducer.mangSV
+    mangSV: rootReducer.QLSVReducer.mangSV,
+    inputSearch: rootReducer.QLSVReducer.inputSearch
   }
 }
 

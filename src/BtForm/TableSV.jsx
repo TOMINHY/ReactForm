@@ -3,28 +3,29 @@ import { connect } from 'react-redux'
 class TableSV extends Component {
 
   renderMangSV = () => {
-    return this.props.mangSV.map((sv) => {
+   let kq = this.props.search.length > 0 ? this.props.search : this.props.mangSV
+    return  kq.map((sv) => {
       return <tr key={sv.maSV}>
-          <td>{sv.maSV}</td>
-          <td>{sv.hoTen}</td>
-          <td>{sv.sdt}</td>
-          <td>{sv.email}</td>
-          <td>
-            <button onClick={()=>{
-              let action ={
-                type:'XOA_SV',
-                maXoa:sv.maSV
-              }
-              this.props.dispatch(action)
-            }} className='btn btn-danger mr-3'>Xóa</button>
-            <button onClick={()=>{
-              let action ={
-                type: 'XEM_CT',
-                sinhVienCT:sv
-              }
-              this.props.dispatch(action)
-            }} className='btn btn-info'>Xem</button>
-          </td>
+        <td>{sv.maSV}</td>
+        <td>{sv.hoTen}</td>
+        <td>{sv.sdt}</td>
+        <td>{sv.email}</td>
+        <td>
+          <button onClick={() => {
+            let action = {
+              type: 'XOA_SV',
+              maXoa: sv.maSV
+            }
+            this.props.dispatch(action)
+          }} className='btn btn-danger mr-3'>Xóa</button>
+          <button onClick={() => {
+            let action = {
+              type: 'XEM_CT',
+              sinhVienCT: sv
+            }
+            this.props.dispatch(action)
+          }} className='btn btn-info'>Xem</button>
+        </td>
       </tr>
     })
   }
@@ -54,11 +55,9 @@ class TableSV extends Component {
 
 const mapStateToProps = (rootReducer) => {
   return {
-    mangSV: rootReducer.QLSVReducer.mangSV
+    mangSV: rootReducer.QLSVReducer.mangSV,
+    search: rootReducer.QLSVReducer.search
   }
 }
-
-
-
 
 export default connect(mapStateToProps)(TableSV)
